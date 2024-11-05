@@ -1,23 +1,23 @@
+using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshPro _counterViewText;
+    [SerializeField] [Min(0.5f)] private float _secondsToIncrement = 0.5f;
 
-    [SerializeField, Min(0.5f)]
-    private float _secondsToIncrement = 0.5f;
-
-    private int _counterValue;
+    private Coroutine _coroutine;
     private bool _isNeedToIncrease;
+
+    public event Action ValueChanged;
+    public int Value { get; private set; }
 
     private void Start()
     {
-        _counterValue = 0;
+        Value = 0;
+        ValueChanged?.Invoke();
         _isNeedToIncrease = false;
-        DisplayCounterValue(_counterValue);
+        RestartCoroutine();
     }
 
     private void Update()
@@ -25,8 +25,13 @@ public class Counter : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             _isNeedToIncrease = !_isNeedToIncrease;
-            StartCoroutine(Count(_secondsToIncrement));
+            RestartCoroutine();
         }
+    }
+
+    private void RestartCoroutine()
+    {
+        _coroutine = StartCoroutine(Count(_secondsToIncrement));
     }
 
     private IEnumerator Count(float delay)
@@ -35,14 +40,9 @@ public class Counter : MonoBehaviour
 
         while (_isNeedToIncrease)
         {
-            _counterValue++;
-            DisplayCounterValue(_counterValue);
+            Value++;
+            ValueChanged?.Invoke();
             yield return wait;
         }
-    }
-
-    private void DisplayCounterValue(int value)
-    {
-        _counterViewText.text = value.ToString();
     }
 }
