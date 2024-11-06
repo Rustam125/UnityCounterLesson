@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CounterView : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro _counterViewText;
+    [SerializeField] private TextMeshPro _textMesh;
     [SerializeField] private Counter _counter;
 
     private void OnEnable()
@@ -18,6 +19,6 @@ public class CounterView : MonoBehaviour
 
     private void DisplayCounterValue()
     {
-        _counterViewText.text = _counter.Value.ToString();
+        _textMesh.text = _counter.Value.ToString();
     }
 }

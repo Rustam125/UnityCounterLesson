@@ -17,7 +17,6 @@ public class Counter : MonoBehaviour
         Value = 0;
         ValueChanged?.Invoke();
         _isNeedToIncrease = false;
-        RestartCoroutine();
     }
 
     private void Update()
@@ -25,13 +24,17 @@ public class Counter : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             _isNeedToIncrease = !_isNeedToIncrease;
-            RestartCoroutine();
-        }
-    }
 
-    private void RestartCoroutine()
-    {
-        _coroutine = StartCoroutine(Count(_secondsToIncrement));
+            if (_isNeedToIncrease)
+            {
+                _coroutine = StartCoroutine(Count(_secondsToIncrement));
+            }
+            else
+            {
+                if (_coroutine != null)
+                    StopCoroutine(_coroutine);
+            }
+        }
     }
 
     private IEnumerator Count(float delay)

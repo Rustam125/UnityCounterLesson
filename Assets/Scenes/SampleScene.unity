@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6798e95027973046b5fbc85ecf13889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _counterViewText: {fileID: 1460291036}
+  _textMesh: {fileID: 1460291036}
   _counter: {fileID: 798753194}
 --- !u!4 &360528747
 Transform:
